@@ -3,6 +3,8 @@ import PrimaryButton from "../components/ui/PrimaryButton";
 import { useState } from "react";
 import Colors from "../constants/Colors";
 import Title from "../components/ui/Title";
+import Card from "../components/ui/Card";
+import TextInstruction from "../components/ui/TextInstruction";
 
 function StartGameScreen({ updateEnteredNumber }) {
   const [enteredNumber, setEnteredNumber] = useState("");
@@ -39,8 +41,8 @@ function StartGameScreen({ updateEnteredNumber }) {
   return (
     <View style={styles.outsideContainer}>
       <Title>Guess My Number</Title>
-      <View style={styles.insideContainer}>
-        <Text style={styles.instructionStyle}>Enter a number</Text>
+      <Card>
+        <TextInstruction>Enter a Number</TextInstruction>
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.numberInput}
@@ -63,7 +65,7 @@ function StartGameScreen({ updateEnteredNumber }) {
             </PrimaryButton>
           </View>
         </View>
-      </View>
+      </Card>
     </View>
   );
 }
@@ -75,27 +77,9 @@ const styles = StyleSheet.create({
     marginTop: 100,
     alignItems: 'center'
   },
-  insideContainer: {
-    alignItems:'center',
-    justifyContent: 'center',
-    marginTop: 36,
-    marginHorizontal: 24,
-    padding: 16,
-    backgroundColor: Colors.primary800,
-    borderRadius: 8,
-    elevation: 4,
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 6,
-    shadowOpacity: 0.25,
-  },
   inputContainer: {
     flexDirection: "row",
     justifyContent: "center",
-  },
-  instructionStyle:{
-    color: Colors.accent500,
-    fontSize: 24
   },
   numberInput: {
     height: 50,

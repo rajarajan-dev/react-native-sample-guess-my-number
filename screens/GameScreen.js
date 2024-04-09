@@ -3,6 +3,8 @@ import Title from "../components/ui/Title";
 import { useEffect, useState } from "react";
 import NumberContainer from "../components/game/NumberContainer";
 import PrimaryButton from "../components/ui/PrimaryButton";
+import Card from "../components/ui/Card";
+import TextInstruction from "../components/ui/TextInstruction";
 
 let minBoundry = 1;
 let maxBoundry = 100;
@@ -20,40 +22,54 @@ function generateRandomBetween(min, max, exclude) {
 function GameScreen({ userNumber, onGameOver }) {
   let initialGuess = generateRandomBetween(minBoundry, maxBoundry, userNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
-  
-  useEffect(()=>{
-    if(currentGuess === userNumber)  {
+
+  useEffect(() => {
+    if (currentGuess === userNumber) {
       onGameOver();
     }
-  },[currentGuess,userNumber,onGameOver]);
+  }, [currentGuess, userNumber, onGameOver]);
 
-  function guessNumberHandler(direction){
+  function guessNumberHandler(direction) {
     if (
-      (direction === 'lower' && currentGuess < userNumber) ||
-      (direction === 'higher' && currentGuess > userNumber)
+      (direction === "lower" && currentGuess < userNumber) ||
+      (direction === "higher" && currentGuess > userNumber)
     ) {
-      Alert.alert("Don't lie!", 'You know that this is wrong...', [
-        { text: 'Sorry!', style: 'cancel' },
+      Alert.alert("Don't lie!", "You know that this is wrong...", [
+        { text: "Sorry!", style: "cancel" },
       ]);
       return;
     }
 
-    if(direction === 'lower'){
-      maxBoundry =  currentGuess;
-    }else{
+    if (direction === "lower") {
+      maxBoundry = currentGuess;
+    } else {
       minBoundry = currentGuess;
     }
-    setCurrentGuess(generateRandomBetween(minBoundry, maxBoundry, currentGuess));
+    setCurrentGuess(
+      generateRandomBetween(minBoundry, maxBoundry, currentGuess)
+    );
   }
   return (
     <View style={styles.container}>
       <Title>Opponent's Guess</Title>
       <NumberContainer>{currentGuess}</NumberContainer>
-      <Text style={styles.GuessStyle} > Guess? Higher or Lower</Text>
-      <View>
-        <PrimaryButton onPress={guessNumberHandler.bind(this,'lower')}>-</PrimaryButton>
-        <PrimaryButton onPress={guessNumberHandler.bind(this,'higher')}>+</PrimaryButton>
-      </View>
+      <Card>
+        <TextInstruction style={styles.instructionStyle}>
+          Guess? Higher or Lower
+        </TextInstruction>
+        <View style={styles.buttonsContainer}>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={guessNumberHandler.bind(this, "lower")}>
+              -
+            </PrimaryButton>
+          </View>
+          <View style={styles.buttonContainer}>
+          <PrimaryButton onPress={guessNumberHandler.bind(this, "higher")}>
+            +
+          </PrimaryButton>
+          </View>
+        </View>
+      </Card>
     </View>
   );
 }
@@ -65,10 +81,21 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 50,
   },
-  GuessStyle :{
-    color: 'white',
-    textAlign:'center',
+  GuessStyle: {
+    color: "white",
+    textAlign: "center",
     margin: 10,
-    fontSize: 15
-  }
+    fontSize: 15,
+  },
+  instructionStyle: {
+    marginBottom: 10,
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  buttonContainer: {
+    flex: 1,
+  },
 });
