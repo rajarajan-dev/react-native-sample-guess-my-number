@@ -45,8 +45,9 @@ export default function App() {
     guessRounds={guessRounds} userNumber={gameEnteredNumber} onGameRestartHandler={onGameRestartHandler} /> 
   }
 
-  function onGameOver(){
+  function onGameOver(roundNumber){
     setIsGameOver(true);
+    setGuessRounds(roundNumber);
   }
 
   function onGameRestartHandler(){
