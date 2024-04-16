@@ -1,14 +1,37 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { StyleSheet, ImageBackground, SafeAreaView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import StartGameScreen from "./screens/StartGameScreen";
 import GameScreen from "./screens/GameScreen";
 import Colors from "./constants/Colors";
 import GameOverScreen from "./screens/GameOverScreen";
+import * as SplashScreen from "expo-splash-screen"
+import {useFonts} from "expo-font";
+
+
+
+// Keep the splash screen visible while we fetch resources
+// SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const [gameEnteredNumber, setGameEnteredNumber] = useState("");
-  const [isGameOver, setIsGameOver] = useState(false);
+  
+    
+    
+    const [gameEnteredNumber, setGameEnteredNumber] = useState("");
+    const [isGameOver, setIsGameOver] = useState(false);
+    const [guessRounds, setGuessRounds] = useState(0);
+    
+    const [fontsLoaded] = useFonts({
+      'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+      'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
+    });
+
+    if (!fontsLoaded) {
+      // Font loading is still in progress
+      return null;
+    }
+
+  
 
   let screen = (
     <StartGameScreen updateEnteredNumber={updateGameEnteredNumberHandler} />
@@ -18,11 +41,18 @@ export default function App() {
   }
 
   if(isGameOver){
-    screen = <GameOverScreen /> 
+    screen = <GameOverScreen 
+    guessRounds={guessRounds} userNumber={gameEnteredNumber} onGameRestartHandler={onGameRestartHandler} /> 
   }
 
   function onGameOver(){
     setIsGameOver(true);
+  }
+
+  function onGameRestartHandler(){
+      setGuessRounds(0);
+      setGameEnteredNumber(null)
+      setIsGameOver(false);
   }
 
   function updateGameEnteredNumberHandler(enteredNumber) {

@@ -14,10 +14,11 @@ const styles = StyleSheet.create({
         fontSize: 24,
         color: 'white',
         borderColor: 'white',
+        fontFamily: 'open-sans-bold',
         borderWidth: 2,
         padding: 10,
         margin: 10,
         textAlign: 'center',
-        fontWeight: 'bold'
+        fontFamily: 'open-sans-bold'
     }
 });
